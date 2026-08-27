@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   handle: { backgroundColor: '#38405E', width: 40 },
   content: { flex: 1, paddingHorizontal: 24, paddingTop: 8, paddingBottom: 32 },
 
-  title: { color: '#EAEFFF', fontSize: 22, fontWeight: '800', marginBottom: 6 },
+  title: { color: '#EAEFFF', fontSize: 22, fontFamily: 'SpaceGrotesk_700Bold', marginBottom: 6 },
   subtitle: { color: '#8FA3C0', fontSize: 13, marginBottom: 20 },
 
   ringContainer: {
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   },
   timerText: {
     fontSize: 26,
-    fontWeight: '800',
+    fontFamily: 'SpaceGrotesk_700Bold',
     color: '#A78BFA',
     letterSpacing: 1,
   },
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   summaryLabel: { color: '#8FA3C0', fontSize: 9, letterSpacing: 1, textTransform: 'uppercase' },
-  summaryValue: { color: '#EAEFFF', fontSize: 11, fontWeight: '700', marginTop: 3, textAlign: 'center' },
+  summaryValue: { color: '#EAEFFF', fontSize: 11, fontFamily: 'SpaceGrotesk_700Bold', marginTop: 3, textAlign: 'center' },
 
   input: {
     backgroundColor: '#1E2130',
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   priceLabel: { color: '#8FA3C0', fontSize: 12 },
-  priceValue: { color: '#EAEFFF', fontSize: 24, fontWeight: '800' },
+  priceValue: { color: '#EAEFFF', fontSize: 24, fontFamily: 'SpaceGrotesk_700Bold' },
 
   confirmBtn: {
     backgroundColor: '#7C3AED',
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   confirmBtnDisabled: { opacity: 0.4 },
-  confirmBtnText: { color: '#fff', fontWeight: '800', fontSize: 14 },
+  confirmBtnText: { color: '#fff', fontFamily: 'SpaceGrotesk_700Bold', fontSize: 14 },
 
   releaseLink: { alignSelf: 'center', paddingVertical: 8 },
   releaseLinkText: { color: '#F43F5E', fontSize: 12, textDecorationLine: 'underline' },

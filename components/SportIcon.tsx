@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Pressable, View, Text } from 'react-native';
 import Svg, { Path, Circle, Ellipse, G } from 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Sport } from '../store/bookingStore';
 import { SPORT_ACCENT_COLORS } from '../constants/sports';
 
@@ -100,6 +101,39 @@ function SwimmingIcon({ color }: { color: string }) {
   );
 }
 
+function FootballIcon({ color }: { color: string }) {
+  return (
+    <Svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+      <Circle cx="19" cy="19" r="13" stroke={color} strokeWidth="2" fill="none" />
+      {/* Basic pentagon/hexagon lines for soccer ball */}
+      <Path d="M19 12 L24 16 L22 22 L16 22 L14 16 Z" stroke={color} strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+      <Path d="M19 12 L19 6" stroke={color} strokeWidth="1.5" />
+      <Path d="M24 16 L31 14" stroke={color} strokeWidth="1.5" />
+      <Path d="M22 22 L27 28" stroke={color} strokeWidth="1.5" />
+      <Path d="M16 22 L11 28" stroke={color} strokeWidth="1.5" />
+      <Path d="M14 16 L7 14" stroke={color} strokeWidth="1.5" />
+      <Circle cx="19" cy="19" r="11" fill={color} opacity={0.12} />
+    </Svg>
+  );
+}
+
+function CricketIcon({ color }: { color: string }) {
+  return (
+    <Svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+      {/* Bat Handle */}
+      <Path d="M26 6 L28 8 L24 12 L22 10 Z" fill={color} opacity={0.9} />
+      <Path d="M26 6 L28 8 L24 12 L22 10 Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      {/* Bat Blade */}
+      <Path d="M24 12 L28 16 L14 30 Q12 32 10 30 L8 28 Q6 26 8 24 L22 10 Z" stroke={color} strokeWidth="2" fill="none" strokeLinejoin="round" />
+      {/* Bat details */}
+      <Path d="M20 16 L14 22" stroke={color} strokeWidth="1" opacity={0.6} />
+      {/* Ball */}
+      <Circle cx="28" cy="28" r="4" stroke={color} strokeWidth="1.5" fill="none" />
+      <Circle cx="28" cy="28" r="3" fill={color} opacity={0.2} />
+    </Svg>
+  );
+}
+
 // ─── Sport Icon Map ───────────────────────────────────────────────────────────
 
 const ICON_MAP: Record<string, (color: string) => React.ReactNode> = {
@@ -108,6 +142,8 @@ const ICON_MAP: Record<string, (color: string) => React.ReactNode> = {
   gym:       (c) => <GymIcon color={c} />,
   basketball: (c) => <BasketballIcon color={c} />,
   swimming:  (c) => <SwimmingIcon color={c} />,
+  football:  (c) => <FootballIcon color={c} />,
+  cricket:   (c) => <CricketIcon color={c} />,
 };
 
 // ─── Circular FAB Sport Button ────────────────────────────────────────────────
@@ -161,83 +197,71 @@ export function SportIconButton({ sport, isSelected, isAvailable, onPress }: Spo
   };
 
   return (
-    // Fixed width of 88px gives icon (76px) + 6px padding each side — plenty of room
-    <Pressable onPress={handlePress} style={{ alignItems: 'center', width: 88, marginHorizontal: 6 }}>
+    <Pressable onPress={handlePress} style={{ marginHorizontal: 6 }}>
       <Animated.View
         style={{
           transform: [{ scale: scaleAnim }],
-          opacity: glowAnim.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1] }),
-          alignItems: 'center',
+          opacity: glowAnim.interpolate({ inputRange: [0, 1], outputRange: [0.7, 1] }),
         }}
       >
-        {/* Outer glow ring */}
-        {isSelected && (
-          <View
-            style={{
-              position: 'absolute',
-              width: 90,
-              height: 90,
-              borderRadius: 45,
-              top: -7,
-              left: -7,
-              backgroundColor: accentColor?.glow ?? '#7C3AED40',
-            }}
-          />
-        )}
-
-        {/* Circle FAB */}
-        <View
+        <LinearGradient
+          colors={
+            isSelected
+              ? ['#2A2E45', '#1E2130'] // Raised, elevated gradient
+              : ['#1E2130', '#131525'] // Recessed gradient for unselected
+          }
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
           style={{
-            width: 68,
-            height: 68,
-            borderRadius: 34,
-            backgroundColor: isSelected ? '#252840' : '#1E2130',
-            borderWidth: isSelected ? 2 : 1,
-            borderColor: isSelected ? accentColor?.primary : '#38405E',
+            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: accentColor?.primary,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: isSelected ? 0.6 : 0,
-            shadowRadius: 12,
-            elevation: isSelected ? 12 : 0,
+            height: 52,
+            borderRadius: 26,
+            paddingLeft: 8,
+            paddingRight: 20,
+            borderWidth: isSelected ? 1.5 : 1,
+            borderColor: isSelected ? accentColor?.primary : '#38405E',
+            shadowColor: isSelected ? accentColor?.primary : '#000',
+            shadowOffset: { width: 0, height: isSelected ? 4 : 2 },
+            shadowOpacity: isSelected ? 0.6 : 0.3,
+            shadowRadius: isSelected ? 10 : 4,
+            elevation: isSelected ? 8 : 2,
+            gap: 6,
           }}
         >
-          {ICON_MAP[sport.id]?.(isSelected ? accentColor?.primary ?? '#A78BFA' : '#6B7FA0')}
-        </View>
+          {/* Icon (Scaled down slightly for pill proportions) */}
+          <View style={{ transform: [{ scale: 0.85 }], width: 38, height: 38, alignItems: 'center', justifyContent: 'center' }}>
+            {ICON_MAP[sport.id]?.(isSelected ? accentColor?.primary ?? '#A78BFA' : '#6B7FA0')}
+          </View>
 
-        {/* Live availability dot */}
-        {isAvailable && (
-          <View style={{ position: 'absolute', top: 2, right: 6 }}>
+          {/* Label */}
+          <Text
+            style={{
+              fontSize: 13,
+              fontFamily: isSelected ? 'Inter_600SemiBold' : 'Inter_500Medium',
+              color: isSelected ? '#EAEFFF' : '#8FA3C0',
+              letterSpacing: 0.2,
+            }}
+          >
+            {sport.label}
+          </Text>
+
+          {/* Live availability dot */}
+          {isAvailable && (
             <Animated.View
               style={{
-                width: 9,
-                height: 9,
-                borderRadius: 4.5,
+                width: 6,
+                height: 6,
+                borderRadius: 3,
                 backgroundColor: '#22C55E',
                 transform: [{ scale: pulseAnim }],
                 opacity: 0.9,
+                marginLeft: 4,
               }}
             />
-          </View>
-        )}
+          )}
+        </LinearGradient>
       </Animated.View>
-
-      {/* Label — fixed width matches the pressable, centered, no uppercase crunch */}
-      <Text
-        numberOfLines={1}
-        style={{
-          marginTop: 8,
-          fontSize: 11,
-          fontWeight: isSelected ? '700' : '400',
-          color: isSelected ? accentColor?.primary : '#6B7FA0',
-          letterSpacing: 0,
-          textAlign: 'center',
-          width: 84,
-        }}
-      >
-        {sport.label}
-      </Text>
     </Pressable>
   );
 }

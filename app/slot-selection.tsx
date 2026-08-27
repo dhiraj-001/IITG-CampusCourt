@@ -17,6 +17,8 @@ import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from '@gorhom/bottom-sheet';
+import { BlurView } from 'expo-blur';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TimeSlotItem, SlotLegend } from '../components/TimeSlotGrid';
 import { CheckoutModal } from '../components/CheckoutModal';
@@ -28,6 +30,7 @@ const COLUMNS = 3;
 
 export default function SlotSelectionScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { selectedFacility, selectedSport, selectedSlot, selectSlot, initiateHold } =
     useBookingStore();
 
@@ -147,30 +150,36 @@ export default function SlotSelectionScreen() {
         <View style={{ height: 120 }} />
       </ScrollView>
 
-      {/* ── Sticky CTA ── */}
-      <View style={styles.ctaContainer}>
+      {/* ── Sticky CTA (Floating Pill) ── */}
+      <View style={[styles.ctaContainer, { bottom: insets.bottom + 20 }]} pointerEvents="box-none">
         {selectedSlot ? (
-          <LinearGradient
-            colors={['#7C3AED', '#5B21B6']}
-            style={styles.ctaGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          >
-            <Pressable style={styles.ctaInner} onPress={handleProceed}>
-              <View>
-                <Text style={styles.ctaTime}>
-                  {selectedSlot.startTime} – {selectedSlot.endTime}
-                </Text>
-                <Text style={styles.ctaPrice}>₹{selectedFacility.pricePerSlot}</Text>
-              </View>
-              <View style={styles.ctaArrowCircle}>
-                <Ionicons name="lock-closed" size={16} color="#7C3AED" />
-              </View>
-            </Pressable>
-          </LinearGradient>
+          <View style={styles.ctaFloatingWrapper}>
+            <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill} />
+            <LinearGradient
+              colors={['rgba(124, 58, 237, 0.9)', 'rgba(91, 33, 182, 0.9)']}
+              style={styles.ctaGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <Pressable style={styles.ctaInner} onPress={handleProceed}>
+                <View>
+                  <Text style={styles.ctaTime}>
+                    {selectedSlot.startTime} – {selectedSlot.endTime}
+                  </Text>
+                  <Text style={styles.ctaPrice}>₹{selectedFacility.pricePerSlot} <Text style={{opacity:0.7}}>/ slot</Text></Text>
+                </View>
+                <View style={styles.ctaArrowCircle}>
+                  <Ionicons name="lock-closed" size={16} color="#7C3AED" />
+                </View>
+              </Pressable>
+            </LinearGradient>
+          </View>
         ) : (
-          <View style={styles.ctaDisabled}>
-            <Text style={styles.ctaDisabledText}>← Select a slot to continue</Text>
+          <View style={styles.ctaFloatingWrapper}>
+            <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill} />
+            <View style={styles.ctaDisabled}>
+              <Text style={styles.ctaDisabledText}>Select a slot to continue</Text>
+            </View>
           </View>
         )}
       </View>
@@ -205,8 +214,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   heroContent: {},
-  heroSport: { color: 'rgba(255,255,255,0.8)', fontSize: 13, fontWeight: '600', letterSpacing: 0.5 },
-  heroName: { color: '#fff', fontSize: 26, fontWeight: '800', marginTop: 4 },
+  heroSport: { color: 'rgba(255,255,255,0.8)', fontSize: 13, fontFamily: 'SpaceGrotesk_600SemiBold', letterSpacing: 0.5 },
+  heroName: { color: '#fff', fontSize: 26, fontFamily: 'SpaceGrotesk_700Bold', marginTop: 4 },
   heroMeta: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 },
   heroMetaText: { color: 'rgba(255,255,255,0.88)', fontSize: 12 },
   priceBadge: {
@@ -215,7 +224,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 20,
   },
-  priceText: { color: '#fff', fontSize: 13, fontWeight: '700' },
+  priceText: { color: '#fff', fontSize: 13, fontFamily: 'SpaceGrotesk_700Bold' },
 
   stepRow: {
     flexDirection: 'row',
@@ -235,7 +244,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stepDotActive: { backgroundColor: '#7C3AED', borderColor: '#A78BFA' },
-  stepNum: { color: '#6B7FA0', fontSize: 10, fontWeight: '700' },
+  stepNum: { color: '#6B7FA0', fontSize: 10, fontFamily: 'SpaceGrotesk_700Bold' },
   stepNumActive: { color: '#fff' },
   stepLine: { flex: 1, height: 1, backgroundColor: '#38405E', marginHorizontal: 4 },
   stepLineActive: { backgroundColor: '#7C3AED' },
@@ -254,44 +263,48 @@ const styles = StyleSheet.create({
 
   ctaContainer: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 20,
-    paddingBottom: 36,
-    paddingTop: 12,
-    backgroundColor: '#0D0E1A',
+    left: 20,
+    right: 20,
+    shadowColor: '#7C3AED',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 10,
   },
-  ctaGradient: { borderRadius: 20 },
+  ctaFloatingWrapper: {
+    borderRadius: 24,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+  },
+  ctaGradient: {
+    paddingHorizontal: 22,
+    paddingVertical: 16,
+  },
   ctaInner: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 22,
-    paddingVertical: 18,
   },
-  ctaTime: { color: '#fff', fontSize: 16, fontWeight: '800' },
-  ctaPrice: { color: 'rgba(255,255,255,0.8)', fontSize: 13, marginTop: 2 },
+  ctaTime: { color: '#fff', fontSize: 16, fontFamily: 'SpaceGrotesk_700Bold' },
+  ctaPrice: { color: 'rgba(255,255,255,0.8)', fontSize: 13, marginTop: 2, fontFamily: 'Inter_500Medium' },
   ctaArrowCircle: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
   ctaDisabled: {
-    backgroundColor: '#1E2130',
-    borderRadius: 20,
-    paddingVertical: 18,
+    backgroundColor: 'rgba(30, 33, 48, 0.75)',
+    paddingVertical: 20,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#38405E',
   },
-  ctaDisabledText: { color: '#6B7FA0', fontSize: 14 },
+  ctaDisabledText: { color: '#8FA3C0', fontSize: 14, fontFamily: 'Inter_500Medium' },
 
   errorContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0D0E1A' },
   errorText: { color: '#8FA3C0', fontSize: 16, marginBottom: 20 },
   backBtn: { backgroundColor: '#7C3AED', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 20 },
-  backBtnText: { color: '#fff', fontWeight: '700' },
+  backBtnText: { color: '#fff', fontFamily: 'SpaceGrotesk_700Bold' },
 });

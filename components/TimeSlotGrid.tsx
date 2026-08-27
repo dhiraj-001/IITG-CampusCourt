@@ -1,35 +1,38 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Pressable, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { TimeSlot } from '../store/bookingStore';
+
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 // ─── Status config ────────────────────────────────────────────────────────────
 
 const STATUS_CONFIG = {
   available: {
-    bg: '#14B8A615',
+    bgGradient: ['#14B8A615', '#14B8A605'] as const,
     border: '#14B8A6',
     text: '#5EEAD4',
     label: '',
     interactive: true,
   },
   locked: {
-    bg: '#F59E0B15',
+    bgGradient: ['#F59E0B15', '#F59E0B05'] as const,
     border: '#F59E0B',
     text: '#FCD34D',
     label: '🔒',
     interactive: false,
   },
   booked: {
-    bg: '#F43F5E15',
+    bgGradient: ['#F43F5E15', '#F43F5E05'] as const,
     border: '#F43F5E40',
     text: '#FB7185',
     label: '✕',
     interactive: false,
   },
   selected: {
-    bg: '#7C3AED30',
+    bgGradient: ['#A78BFA', '#7C3AED'] as const,
     border: '#A78BFA',
-    text: '#E9D5FF',
+    text: '#0D0E1A',
     label: '✓',
     interactive: true,
   },
@@ -77,48 +80,51 @@ export function TimeSlotItem({ slot, isSelected, onPress }: TimeSlotItemProps) {
 
   return (
     <Pressable onPress={handlePress} disabled={!config.interactive}>
-      <Animated.View
+      <AnimatedLinearGradient
+        colors={config.bgGradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
         style={{
           transform: [{ scale: scaleAnim }],
-          // Pill / stadium shape — not a rectangle
-          borderRadius: 20,
-          borderWidth: isSelected ? 1.5 : 1,
+          // Pill / stadium shape
+          borderRadius: 22,
+          borderWidth: 1,
           borderColor: config.border,
-          backgroundColor: config.bg,
-          paddingHorizontal: 14,
-          paddingVertical: 10,
+          paddingHorizontal: 12,
+          paddingVertical: 14,
           marginBottom: 10,
           marginHorizontal: 4,
-          minWidth: 84,
+          minWidth: 86,
           alignItems: 'center',
           opacity: slot.status === 'booked' ? 0.4 : 1,
         }}
       >
         {/* Time range */}
-        <Text style={{ color: config.text, fontSize: 12, fontWeight: '700', letterSpacing: 0.5 }}>
+        <Text style={{ color: config.text, fontSize: 13, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: 0.5 }}>
           {slot.startTime}
         </Text>
-        <Text style={{ color: config.text, fontSize: 10, opacity: 0.7 }}>↓</Text>
-        <Text style={{ color: config.text, fontSize: 12, fontWeight: '700', letterSpacing: 0.5 }}>
+        <Text style={{ color: config.text, fontSize: 10, opacity: 0.5, marginVertical: 2 }}>↓</Text>
+        <Text style={{ color: config.text, fontSize: 13, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: 0.5 }}>
           {slot.endTime}
         </Text>
 
         {/* Status icon */}
         {config.label ? (
-          <Text style={{ marginTop: 4, fontSize: 10 }}>{config.label}</Text>
+          <Text style={{ marginTop: 6, fontSize: 10, color: config.text, opacity: 0.8 }}>{config.label}</Text>
         ) : (
           // Live available dot
-          <View
+          <Animated.View
             style={{
-              marginTop: 5,
+              marginTop: 6,
               width: 6,
               height: 6,
               borderRadius: 3,
               backgroundColor: '#14B8A6',
+              opacity: borderOpacity,
             }}
           />
         )}
-      </Animated.View>
+      </AnimatedLinearGradient>
     </Pressable>
   );
 }

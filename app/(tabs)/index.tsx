@@ -29,9 +29,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { SportIconButton } from '../components/SportIcon';
-import { useBookingStore, Sport, Facility } from '../store/bookingStore';
-import { SPORTS, FACILITIES, SPORT_ACCENT_COLORS } from '../constants/sports';
+import { SportIconButton } from '../../components/SportIcon';
+import { useBookingStore, Sport, Facility } from '../../store/bookingStore';
+import { SPORTS, FACILITIES, SPORT_ACCENT_COLORS } from '../../constants/sports';
+import { TYPE } from '../../constants/typography';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const FEATURED_CARD_W = SCREEN_WIDTH * 0.75;
@@ -158,8 +159,8 @@ const statStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cardValue: { fontSize: 22, fontWeight: '800', letterSpacing: -0.5, lineHeight: 26 },
-  plus: { fontSize: 14, fontWeight: '600' },
+  cardValue: { fontSize: 22, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: -0.5, lineHeight: 26 },
+  plus: { fontSize: 14, fontFamily: 'SpaceGrotesk_600SemiBold' },
   cardLabel: { color: '#6B7FA0', fontSize: 11, letterSpacing: 0.2, marginTop: -2 },
 });
 
@@ -197,7 +198,7 @@ const ringStyles = StyleSheet.create({
   },
   fill: { height: '100%', borderRadius: 2 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  txt: { fontSize: 10, fontWeight: '700' },
+  txt: { fontSize: 10, fontFamily: 'SpaceGrotesk_700Bold' },
 });
 
 // ─── Featured hero card (horizontal carousel) ─────────────────────────────────
@@ -297,22 +298,22 @@ const featStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.14)',
   },
-  topBadgeText: { color: 'rgba(255,255,255,0.85)', fontSize: 9, fontWeight: '700', letterSpacing: 1.5 },
+  topBadgeText: { color: 'rgba(255,255,255,0.85)', fontSize: 9, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: 1.5 },
   ratingBadge: {
     backgroundColor: 'rgba(0,0,0,0.50)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 20,
   },
-  ratingText: { color: '#fff', fontSize: 11, fontWeight: '700' },
+  ratingText: { color: '#fff', fontSize: 11, fontFamily: 'SpaceGrotesk_700Bold' },
 
   bottom: { gap: 6 },
-  name: { color: '#fff', fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
+  name: { color: '#fff', fontSize: 20, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: -0.3 },
   addr: { color: 'rgba(255,255,255,0.72)', fontSize: 11 },
 
   metaRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 },
   priceRow: { flexDirection: 'row', alignItems: 'flex-end', gap: 2 },
-  price: { color: '#fff', fontSize: 18, fontWeight: '800' },
+  price: { color: '#fff', fontSize: 18, fontFamily: 'SpaceGrotesk_700Bold' },
   priceUnit: { color: 'rgba(255,255,255,0.65)', fontSize: 11, marginBottom: 2 },
 
   cta: {
@@ -326,7 +327,7 @@ const featStyles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 6,
   },
-  ctaText: { color: '#000', fontWeight: '800', fontSize: 12 },
+  ctaText: { color: '#000', fontFamily: 'SpaceGrotesk_700Bold', fontSize: 12 },
 });
 
 // ─── List facility card ───────────────────────────────────────────────────────
@@ -428,11 +429,11 @@ const listStyles = StyleSheet.create({
     paddingVertical: 16,
   },
   panelEmoji: { fontSize: 26 },
-  distText: { color: 'rgba(255,255,255,0.8)', fontSize: 9, fontWeight: '700', letterSpacing: 0.5 },
+  distText: { color: 'rgba(255,255,255,0.8)', fontSize: 9, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: 0.5 },
 
   body: { flex: 1, padding: 14, gap: 5 },
   topRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  name: { color: '#EAEFFF', fontSize: 15, fontWeight: '700', flex: 1 },
+  name: { color: '#EAEFFF', fontSize: 15, fontFamily: 'SpaceGrotesk_700Bold', flex: 1 },
   ratingChip: {
     backgroundColor: '#252840',
     paddingHorizontal: 7,
@@ -441,7 +442,7 @@ const listStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#38405E',
   },
-  ratingChipText: { color: '#EAEFFF', fontSize: 10, fontWeight: '700' },
+  ratingChipText: { color: '#EAEFFF', fontSize: 10, fontFamily: 'SpaceGrotesk_700Bold' },
   addr: { color: '#6B7FA0', fontSize: 11 },
 
   tagsRow: { flexDirection: 'row', gap: 6, marginTop: 2 },
@@ -457,13 +458,13 @@ const listStyles = StyleSheet.create({
 
   bottomRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 },
   availRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  availText: { fontSize: 11, fontWeight: '600' },
+  availText: { fontSize: 11, fontFamily: 'SpaceGrotesk_600SemiBold' },
   bookBtn: {
     paddingHorizontal: 16,
     paddingVertical: 7,
     borderRadius: 20,
   },
-  bookBtnText: { color: '#fff', fontSize: 12, fontWeight: '800' },
+  bookBtnText: { color: '#fff', fontSize: 12, fontFamily: 'SpaceGrotesk_700Bold' },
 });
 
 // ─── Discovery Screen ─────────────────────────────────────────────────────────
@@ -551,7 +552,7 @@ export default function DiscoveryScreen() {
       {/* ── Main scroll ── */}
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 32 }}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
           useNativeDriver: true,
         })}
@@ -716,8 +717,8 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   headerLeft: {},
-  greeting: { color: '#8FA3C0', fontSize: 13, letterSpacing: 0.2 },
-  tagline: { color: '#EAEFFF', fontSize: 26, fontWeight: '800', letterSpacing: -0.5, marginTop: 2 },
+  greeting: { color: '#8FA3C0', fontSize: 13, fontFamily: 'Inter_400Regular', letterSpacing: 0.2 },
+  tagline: { color: '#EAEFFF', fontSize: 26, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: -0.8, marginTop: 2 },
   avatarBtn: { marginTop: 4 },
   avatarGradient: {
     width: 44,
@@ -730,7 +731,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 8,
   },
-  avatarText: { color: '#fff', fontWeight: '800', fontSize: 14, letterSpacing: 0.5 },
+  avatarText: { color: '#fff', fontFamily: 'SpaceGrotesk_700Bold', fontSize: 14, letterSpacing: 0.5 },
 
   statsRow: {
     flexDirection: 'row',
@@ -761,6 +762,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#EAEFFF',
     fontSize: 14,
+    fontFamily: 'Inter_400Regular',
     paddingHorizontal: 12,
   },
 
@@ -788,7 +790,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 8,
   },
-  stepNum: { color: '#6B7FA0', fontSize: 10, fontWeight: '700' },
+  stepNum: { color: '#6B7FA0', fontSize: 10, fontFamily: 'SpaceGrotesk_700Bold' },
   stepNumActive: { color: '#fff' },
   stepLine: {
     flex: 1,
@@ -800,7 +802,7 @@ const styles = StyleSheet.create({
   },
   stepLineActive: {},
   stepLineFill: { position: 'absolute', left: 0, top: 0, bottom: 0, width: '50%', backgroundColor: '#7C3AED', borderRadius: 1 },
-  stepLabel: { color: '#6B7FA0', fontSize: 11, letterSpacing: 0.5, paddingHorizontal: 24, marginBottom: 18 },
+  stepLabel: { color: '#6B7FA0', fontSize: 11, fontFamily: 'Inter_400Regular', letterSpacing: 0.3, paddingHorizontal: 24, marginBottom: 18 },
 
   sportsRow: { paddingHorizontal: 20, paddingBottom: 28, paddingTop: 4 },
 
@@ -813,8 +815,8 @@ const styles = StyleSheet.create({
   },
   sectionTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   sectionAccentDot: { width: 4, height: 18, borderRadius: 2, backgroundColor: '#A78BFA' },
-  sectionTitle: { color: '#EAEFFF', fontSize: 18, fontWeight: '800', letterSpacing: -0.3 },
-  sectionSub: { color: '#6B7FA0', fontSize: 12 },
+  sectionTitle: { color: '#EAEFFF', fontSize: 18, fontFamily: 'SpaceGrotesk_700Bold', letterSpacing: -0.3 },
+  sectionSub: { color: '#6B7FA0', fontSize: 12, fontFamily: 'Inter_400Regular' },
   countBadge: {
     backgroundColor: '#7C3AED20',
     borderRadius: 10,
@@ -823,14 +825,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 3,
   },
-  countText: { color: '#A78BFA', fontSize: 12, fontWeight: '700' },
+  countText: { color: '#A78BFA', fontSize: 12, fontFamily: 'SpaceGrotesk_700Bold' },
 
   carouselRow: { paddingLeft: 24, paddingRight: 10, marginBottom: 28 },
 
   emptyState: { alignItems: 'center', paddingTop: 60, paddingHorizontal: 40 },
   emptyIcon: { fontSize: 52, marginBottom: 14 },
-  emptyText: { color: '#EAEFFF', fontSize: 18, fontWeight: '800' },
-  emptySubtext: { color: '#8FA3C0', fontSize: 13, marginTop: 6, textAlign: 'center' },
+  emptyText: { color: '#EAEFFF', fontSize: 18, fontFamily: 'SpaceGrotesk_700Bold' },
+  emptySubtext: { color: '#8FA3C0', fontSize: 13, fontFamily: 'Inter_400Regular', marginTop: 6, textAlign: 'center' },
   clearBtn: {
     marginTop: 20,
     backgroundColor: '#7C3AED20',
@@ -840,5 +842,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 10,
   },
-  clearBtnText: { color: '#A78BFA', fontWeight: '700', fontSize: 13 },
+  clearBtnText: { color: '#A78BFA', fontFamily: 'SpaceGrotesk_700Bold', fontSize: 13 },
 });

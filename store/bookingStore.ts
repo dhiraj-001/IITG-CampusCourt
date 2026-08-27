@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type SportId = 'badminton' | 'tennis' | 'gym' | 'basketball' | 'swimming';
+export type SportId = 'badminton' | 'tennis' | 'gym' | 'basketball' | 'swimming' | 'football' | 'cricket';
 
 export interface Sport {
   id: SportId;

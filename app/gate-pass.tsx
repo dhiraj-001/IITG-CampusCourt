@@ -201,12 +201,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  successCheck: { color: '#fff', fontSize: 28, fontWeight: '800' },
+  successCheck: { color: '#fff', fontSize: 28, fontFamily: 'SpaceGrotesk_700Bold' },
 
   successTitle: {
     color: '#EAEFFF',
     fontSize: 26,
-    fontWeight: '800',
+    fontFamily: 'SpaceGrotesk_700Bold',
     marginBottom: 8,
   },
   successSubtitle: {
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     borderColor: '#38405E',
     paddingVertical: 14,
   },
-  actionBtnText: { color: '#A78BFA', fontSize: 13, fontWeight: '700' },
+  actionBtnText: { color: '#A78BFA', fontSize: 13, fontFamily: 'SpaceGrotesk_700Bold' },
 
   securityNote: {
     flexDirection: 'row',
@@ -281,5 +281,5 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingVertical: 18,
   },
-  newBookingText: { color: '#fff', fontSize: 16, fontWeight: '800' },
+  newBookingText: { color: '#fff', fontSize: 16, fontFamily: 'SpaceGrotesk_700Bold' },
 });

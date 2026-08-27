@@ -160,7 +160,7 @@ function InfoBlock({ label, value }: { label: string; value: string }) {
       <Text style={{ color: '#8FA3C0', fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase' }}>
         {label}
       </Text>
-      <Text style={{ color: '#EAEFFF', fontSize: 13, fontWeight: '700', marginTop: 4, textAlign: 'center' }}>
+      <Text style={{ color: '#EAEFFF', fontSize: 13, fontFamily: 'SpaceGrotesk_700Bold', marginTop: 4, textAlign: 'center' }}>
         {value}
       </Text>
     </View>
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 16,
   },
-  facilityName: { color: '#EAEFFF', fontSize: 20, fontWeight: '800' },
+  facilityName: { color: '#EAEFFF', fontSize: 20, fontFamily: 'SpaceGrotesk_700Bold' },
   address: { color: '#8FA3C0', fontSize: 12, marginTop: 3 },
   sportBadge: {
     width: 50,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   bookingId: {
     color: '#A78BFA',
     fontSize: 18,
-    fontWeight: '800',
+    fontFamily: 'SpaceGrotesk_700Bold',
     letterSpacing: 3,
     marginTop: 4,
   },
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  digitText: { color: '#A78BFA', fontSize: 16, fontWeight: '800' },
+  digitText: { color: '#A78BFA', fontSize: 16, fontFamily: 'SpaceGrotesk_700Bold' },
 
   userStrip: {
     flexDirection: 'row',
@@ -317,6 +317,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     paddingVertical: 14,
   },
-  userName: { color: '#EAEFFF', fontSize: 13, fontWeight: '700' },
+  userName: { color: '#EAEFFF', fontSize: 13, fontFamily: 'SpaceGrotesk_700Bold' },
   userPhone: { color: '#8FA3C0', fontSize: 12 },
 });
