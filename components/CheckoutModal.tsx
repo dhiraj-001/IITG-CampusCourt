@@ -11,6 +11,7 @@ import {
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useBookingStore } from '../store/bookingStore';
 import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -171,11 +172,19 @@ export const CheckoutModal = forwardRef<BottomSheet, CheckoutModalProps>(
             </View>
 
             <TouchableOpacity
-              style={[styles.confirmBtn, (!userName || !userPhone) && styles.confirmBtnDisabled]}
+              style={[styles.confirmBtnWrapper, (!userName || !userPhone) && styles.confirmBtnDisabled]}
               onPress={handleConfirm}
               disabled={!userName || !userPhone}
+              activeOpacity={0.8}
             >
-              <Text style={styles.confirmBtnText}>Confirm & Pay →</Text>
+              <LinearGradient
+                colors={['#7C3AED', '#5B21B6']}
+                style={styles.confirmBtnGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Text style={styles.confirmBtnText}>Confirm & Pay →</Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
 
@@ -274,14 +283,21 @@ const styles = StyleSheet.create({
   priceLabel: { color: '#8FA3C0', fontSize: 12 },
   priceValue: { color: '#EAEFFF', fontSize: 24, fontFamily: 'SpaceGrotesk_700Bold' },
 
-  confirmBtn: {
-    backgroundColor: '#7C3AED',
+  confirmBtnWrapper: {
     borderRadius: 50,
-    paddingHorizontal: 24,
-    paddingVertical: 14,
+    shadowColor: '#7C3AED',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 8,
   },
-  confirmBtnDisabled: { opacity: 0.4 },
-  confirmBtnText: { color: '#fff', fontFamily: 'SpaceGrotesk_700Bold', fontSize: 14 },
+  confirmBtnGradient: {
+    borderRadius: 50,
+    paddingHorizontal: 28,
+    paddingVertical: 16,
+  },
+  confirmBtnDisabled: { opacity: 0.4, shadowOpacity: 0 },
+  confirmBtnText: { color: '#fff', fontFamily: 'SpaceGrotesk_700Bold', fontSize: 15 },
 
   releaseLink: { alignSelf: 'center', paddingVertical: 8 },
   releaseLinkText: { color: '#F43F5E', fontSize: 12, textDecorationLine: 'underline' },

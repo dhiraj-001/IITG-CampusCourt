@@ -273,8 +273,17 @@ const styles = StyleSheet.create({
     lineHeight: 17,
   },
 
-  newBookingBtn: { borderRadius: 20, overflow: 'hidden' },
+  newBookingBtn: { 
+    borderRadius: 50,
+    shadowColor: '#7C3AED',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.4,
+    shadowRadius: 20,
+    elevation: 10,
+    marginTop: 10,
+  },
   newBookingGradient: {
+    borderRadius: 50,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

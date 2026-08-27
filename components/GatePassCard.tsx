@@ -283,7 +283,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#252840',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#38405E',
+    borderColor: '#7C3AED80',
+    shadowColor: '#7C3AED',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 16,
+    elevation: 10,
   },
 
   gateCodeRow: {
