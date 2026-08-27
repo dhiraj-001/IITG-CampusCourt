@@ -18,25 +18,24 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 // ─── Countdown hook ───────────────────────────────────────────────────────────
 
 function useCountdown(targetDate: Date | null): { minutes: number; seconds: number; expired: boolean } {
-  const [remaining, setRemaining] = useState<number>(0);
+  const [, forceRender] = useState({});
 
   useEffect(() => {
     if (!targetDate) return;
-
-    const update = () => {
-      const diff = targetDate.getTime() - Date.now();
-      setRemaining(Math.max(0, diff));
-    };
-
-    update();
-    const interval = setInterval(update, 1000);
+    const interval = setInterval(() => forceRender({}), 1000);
     return () => clearInterval(interval);
   }, [targetDate]);
+
+  if (!targetDate) {
+    return { minutes: 0, seconds: 0, expired: false };
+  }
+
+  const remaining = Math.max(0, targetDate.getTime() - Date.now());
 
   return {
     minutes: Math.floor(remaining / 60000),
     seconds: Math.floor((remaining % 60000) / 1000),
-    expired: remaining === 0 && targetDate !== null,
+    expired: remaining === 0,
   };
 }
 
@@ -104,9 +103,7 @@ export const CheckoutModal = forwardRef<BottomSheet, CheckoutModalProps>(
       router.push('/gate-pass');
     }, [userName, userPhone, confirmBooking, onClose, router]);
 
-    if (!selectedFacility || !selectedSlot || !selectedSport) return null;
-
-    const totalPrice = selectedFacility.pricePerSlot;
+    const totalPrice = selectedFacility?.pricePerSlot ?? 0;
 
     return (
       <BottomSheet
@@ -120,8 +117,10 @@ export const CheckoutModal = forwardRef<BottomSheet, CheckoutModalProps>(
         enableDynamicSizing={false}
       >
         <BottomSheetView style={styles.content}>
-          {/* Header */}
-          <Text style={styles.title}>Secure Your Slot</Text>
+          {(!selectedFacility || !selectedSlot || !selectedSport) ? null : (
+            <>
+              {/* Header */}
+              <Text style={styles.title}>Secure Your Slot</Text>
           <Text style={styles.subtitle}>
             Your slot is temporarily held. Complete payment before time runs out.
           </Text>
@@ -188,10 +187,12 @@ export const CheckoutModal = forwardRef<BottomSheet, CheckoutModalProps>(
             </TouchableOpacity>
           </View>
 
-          {/* Release link */}
-          <TouchableOpacity onPress={() => { releaseHold(); onClose(); }} style={styles.releaseLink}>
-            <Text style={styles.releaseLinkText}>Release Hold</Text>
-          </TouchableOpacity>
+              {/* Release link */}
+              <TouchableOpacity onPress={() => { releaseHold(); onClose(); }} style={styles.releaseLink}>
+                <Text style={styles.releaseLinkText}>Release Hold</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </BottomSheetView>
       </BottomSheet>
     );

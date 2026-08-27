@@ -517,10 +517,14 @@ export default function DiscoveryScreen() {
 
   const handleBook = useCallback(
     (facility: Facility) => {
+      if (!selectedSport || selectedSport.id !== facility.sport) {
+        const sportObj = SPORTS.find((s) => s.id === facility.sport);
+        if (sportObj) selectSport(sportObj);
+      }
       selectFacility(facility);
       router.push('/slot-selection');
     },
-    [selectFacility, router]
+    [selectedSport, selectSport, selectFacility, router]
   );
 
   const totalAvailableSlots = FACILITIES.reduce((sum, f) => sum + f.availableSlots, 0);

@@ -23,7 +23,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TimeSlotItem, SlotLegend } from '../components/TimeSlotGrid';
 import { CheckoutModal } from '../components/CheckoutModal';
 import { useBookingStore, TimeSlot } from '../store/bookingStore';
-import { generateTimeSlots, SPORT_ACCENT_COLORS } from '../constants/sports';
+import { generateTimeSlots, SPORT_ACCENT_COLORS, SPORTS } from '../constants/sports';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const COLUMNS = 3;
@@ -31,7 +31,7 @@ const COLUMNS = 3;
 export default function SlotSelectionScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { selectedFacility, selectedSport, selectedSlot, selectSlot, initiateHold } =
+  const { selectedFacility, selectedSport, selectedSlot, selectSlot, initiateHold, releaseHold, selectSport } =
     useBookingStore();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -54,16 +54,31 @@ export default function SlotSelectionScreen() {
   );
 
   const handleProceed = useCallback(() => {
-    if (!selectedSlot) return;
+    console.log('--- CTA BUTTON PRESSED ---');
+    if (!selectedSlot) {
+      console.log('ERROR: selectedSlot is null');
+      return;
+    }
+    console.log('Initiating hold for slot:', selectedSlot.id);
     initiateHold();
+    
+    console.log('Setting modalVisible to true');
     setModalVisible(true);
-    bottomSheetRef.current?.snapToIndex(0);
+    
+    if (bottomSheetRef.current) {
+      console.log('Snapping bottom sheet to index 0');
+      bottomSheetRef.current.snapToIndex(0);
+    } else {
+      console.log('ERROR: bottomSheetRef.current is null!');
+    }
   }, [selectedSlot, initiateHold]);
 
   const handleCloseModal = useCallback(() => {
-    setModalVisible(false);
-    bottomSheetRef.current?.close();
-  }, []);
+    if (modalVisible) {
+      setModalVisible(false);
+      releaseHold();
+    }
+  }, [modalVisible, releaseHold]);
 
   if (!selectedFacility) {
     return (
@@ -155,24 +170,26 @@ export default function SlotSelectionScreen() {
         {selectedSlot ? (
           <View style={styles.ctaFloatingWrapper}>
             <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill} />
-            <LinearGradient
-              colors={['rgba(124, 58, 237, 0.9)', 'rgba(91, 33, 182, 0.9)']}
-              style={styles.ctaGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
-              <Pressable style={styles.ctaInner} onPress={handleProceed}>
-                <View>
-                  <Text style={styles.ctaTime}>
-                    {selectedSlot.startTime} – {selectedSlot.endTime}
-                  </Text>
-                  <Text style={styles.ctaPrice}>₹{selectedFacility.pricePerSlot} <Text style={{opacity:0.7}}>/ slot</Text></Text>
+            <TouchableOpacity onPress={handleProceed} activeOpacity={0.8} style={{ width: '100%' }}>
+              <LinearGradient
+                colors={['rgba(124, 58, 237, 0.9)', 'rgba(91, 33, 182, 0.9)']}
+                style={styles.ctaGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <View style={styles.ctaInner}>
+                  <View>
+                    <Text style={styles.ctaTime}>
+                      {selectedSlot.startTime} – {selectedSlot.endTime}
+                    </Text>
+                    <Text style={styles.ctaPrice}>₹{selectedFacility.pricePerSlot} <Text style={{opacity:0.7}}>/ slot</Text></Text>
+                  </View>
+                  <View style={styles.ctaArrowCircle}>
+                    <Ionicons name="lock-closed" size={16} color="#7C3AED" />
+                  </View>
                 </View>
-                <View style={styles.ctaArrowCircle}>
-                  <Ionicons name="lock-closed" size={16} color="#7C3AED" />
-                </View>
-              </Pressable>
-            </LinearGradient>
+              </LinearGradient>
+            </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.ctaFloatingWrapper}>

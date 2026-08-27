@@ -108,10 +108,6 @@ function TabItem({
               },
             ],
             transformOrigin: 'left',
-            maxWidth: labelOpacity.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 70],
-            }),
           }}
         >
           <Text style={styles.tabLabel}>{tab.label}</Text>
